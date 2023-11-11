@@ -166,17 +166,23 @@ int32 ATTT_MinimaxPlayer::MiniMax(TMap<FVector2D, ATile*>& Board, int32 Depth, b
 	// If Maximizer has won the game return his/her
 	// evaluated score
 	if (score == 10)
+	{
 		return score;
+	}
 
 	// If Minimizer has won the game return his/her
 	// evaluated score
 	if (score == -10)
+	{
 		return score;
+	}
 
 	// If there are no more moves and no winner then
 	// it is a tie
 	if (IsMovesLeft(Board) == false)
+	{
 		return 0;
+	}
 
 	// If this maximizer's move
 	if (IsMax)
