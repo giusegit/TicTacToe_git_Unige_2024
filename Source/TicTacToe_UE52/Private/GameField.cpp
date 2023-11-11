@@ -117,9 +117,13 @@ bool AGameField::IsWinPosition(const FVector2D Position) const
 	for (int32 i = -Offset; i <= 0; i++)
 	{
 		if (IsWinLine(FVector2D(Position[0] + i, Position[1] + i), FVector2D(Position[0] + Offset + i, Position[1] + Offset + i)))
+		{
 			return true;
+		}
 		if (IsWinLine(FVector2D(Position[0] + i, Position[1] - i), FVector2D(Position[0] + Offset + i, Position[1] - Offset - i)))
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -139,20 +143,29 @@ TArray<int32> AGameField::GetLine(const FVector2D Begin, const FVector2D End) co
 {
 	int32 xSign;
 	if (Begin[0] == End[0])
+	{
 		xSign = 0;
+	}
 	else
+	{
 		xSign = Begin[0] < End[0] ? 1 : -1;
+	}
 
 	int32 ySign;
 	if (Begin[1] == End[1])
+	{
 		ySign = 0;
+	}
 	else
+	{
 		ySign = Begin[1] < End[1] ? 1 : -1;
+	}
 
 	TArray<int32> Line;
 	int32 x = Begin[0] - xSign;
 	int32 y = Begin[1] - ySign;
-	do {
+	do 
+	{
 		x += xSign;
 		y += ySign;
 		Line.Add((TileMap[FVector2D(x, y)])->GetOwner());
@@ -177,7 +190,9 @@ bool AGameField::AllEqual(const TArray<int32>& Array) const
 	for (int32 i = 1; i < Array.Num(); i++)
 	{
 		if (Value != Array[i])
+		{
 			return false;
+		}
 	}
 
 	return true;
