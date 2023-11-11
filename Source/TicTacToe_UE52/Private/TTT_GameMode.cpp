@@ -83,8 +83,12 @@ void ATTT_GameMode::SetCellSign(const int32 PlayerNumber, const FVector& SpawnPo
 		IsGameOver = true;
 		Players[CurrentPlayer]->OnWin();
 		for (int32 i = 0; i < Players.Num(); i++)
+		{
 			if (i != CurrentPlayer)
+			{
 				Players[i]->OnLose();
+			}
+		}
 	}
 	else if (MoveCounter == (FieldSize * FieldSize))
 	{
@@ -107,7 +111,9 @@ int32 ATTT_GameMode::GetNextPlayer(int32 Player)
 {
 	Player++;
 	if (!Players.IsValidIndex(Player))
+	{
 		Player = 0;
+	}
 	return Player;
 }
 
