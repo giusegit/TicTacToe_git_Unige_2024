@@ -19,14 +19,15 @@ AGameField::AGameField()
 	TileSize = 120;
 	// tile padding dimension
 	CellPadding = 20;
-	//normalized tilepadding
-	NormalizedCellPadding = FMath::RoundToDouble(((TileSize + CellPadding) / TileSize) * 100) / 100;
+	
 
 }
 
 void AGameField::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+	//normalized tilepadding
+	NormalizedCellPadding = FMath::RoundToDouble(((TileSize + CellPadding) / TileSize) * 100) / 100;
 }
 
 // Called when the game starts or when spawned
