@@ -18,7 +18,7 @@ ATTT_HumanPlayer::ATTT_HumanPlayer()
 	// create a camera component
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	//set the camera as RootComponent
-	RootComponent = Camera;
+	SetRootComponent(Camera);
 	// get the game instance reference
 	GameInstance = Cast<UTTT_GameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	// default init values
