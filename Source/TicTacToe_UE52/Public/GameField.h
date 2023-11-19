@@ -24,6 +24,7 @@ public:
 	UPROPERTY(Transient)
 	TMap<FVector2D, ATile*> TileMap;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float NormalizedCellPadding;
 
 	static const int32 NOT_ASSIGNED = -1;
