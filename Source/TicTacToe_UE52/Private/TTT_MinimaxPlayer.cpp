@@ -72,18 +72,18 @@ void ATTT_MinimaxPlayer::OnLose()
 int32 ATTT_MinimaxPlayer::EvaluateGrid(TMap<FVector2D, ATile*>& Board)
 {
 	// Checking for Rows for HumanPlayer (0) or AIPlayer (1) victory.  
-	for (auto row = 0; row < 3; row++)
+	for (int32 Row = 0; Row < 3; Row++)
 	{
-		if ((Board[FVector2D(row, 0)])->GetOwner() == (Board[FVector2D(row, 1)])->GetOwner() &&
-			(Board[FVector2D(row, 1)])->GetOwner() == (Board[FVector2D(row, 2)])->GetOwner())
+		if ((Board[FVector2D(Row, 0)])->GetOwner() == (Board[FVector2D(Row, 1)])->GetOwner() &&
+			(Board[FVector2D(Row, 1)])->GetOwner() == (Board[FVector2D(Row, 2)])->GetOwner())
 		{
 			// AI player
-			if ((Board[FVector2D(row, 0)])->GetOwner() == 1)
+			if ((Board[FVector2D(Row, 0)])->GetOwner() == 1)
 			{
 				return 10;
 			}
 			// Human player
-			else if ((Board[FVector2D(row, 0)])->GetOwner() == 0)
+			else if ((Board[FVector2D(Row, 0)])->GetOwner() == 0)
 			{
 				return -10;
 			}
@@ -161,20 +161,20 @@ bool ATTT_MinimaxPlayer::IsMovesLeft(TMap<FVector2D, ATile*>& Board)
 
 int32 ATTT_MinimaxPlayer::MiniMax(TMap<FVector2D, ATile*>& Board, int32 Depth, bool IsMax)
 {
-	int score = EvaluateGrid(Board);
+	int32 Score = EvaluateGrid(Board);
 
 	// If Maximizer has won the game return his/her
 	// evaluated score
-	if (score == 10)
+	if (Score == 10)
 	{
-		return score;
+		return Score;
 	}
 
 	// If Minimizer has won the game return his/her
 	// evaluated score
-	if (score == -10)
+	if (Score == -10)
 	{
-		return score;
+		return Score;
 	}
 
 	// If there are no more moves and no winner then
@@ -187,104 +187,104 @@ int32 ATTT_MinimaxPlayer::MiniMax(TMap<FVector2D, ATile*>& Board, int32 Depth, b
 	// If this maximizer's move
 	if (IsMax)
 	{
-		int32 best = -1000;
+		int32 Best = -1000;
 
 		// Traverse all cells
-		for (auto i = 0; i < 3; i++)
+		for (auto IndexI = 0; IndexI < 3; IndexI++)
 		{
-			for (auto j = 0; j < 3; j++)
+			for (auto IndexJ = 0; IndexJ < 3; IndexJ++)
 			{
 				// Check if cell is empty
-				if ((Board[FVector2D(i, j)])->GetTileStatus() == ETileStatus::EMPTY)
+				if ((Board[FVector2D(IndexI, IndexJ)])->GetTileStatus() == ETileStatus::EMPTY)
 				{
 					// Make the move (set the AI player owner)
-					(Board[FVector2D(i, j)])->SetTileStatus(1, ETileStatus::OCCUPIED);
+					(Board[FVector2D(IndexI, IndexJ)])->SetTileStatus(1, ETileStatus::OCCUPIED);
 
 					// Call minimax recursively and choose
 					// the maximum value
-					best = FMath::Max(best,
+					Best = FMath::Max(Best,
 						MiniMax(Board, Depth + 1, !IsMax));
 
 					// Undo the move
-					(Board[FVector2D(i, j)])->SetTileStatus(-1, ETileStatus::EMPTY);
+					(Board[FVector2D(IndexI, IndexJ)])->SetTileStatus(-1, ETileStatus::EMPTY);
 				}
 			}
 		}
-		return best;
+		return Best;
 	}
 
 	// If this minimizer's move
 	else
 	{
-		int32 best = 1000;
+		int32 Best = 1000;
 
 		// Traverse all cells
-		for (auto i = 0; i < 3; i++)
+		for (auto IndexI = 0; IndexI < 3; IndexI++)
 		{
-			for (auto j = 0; j < 3; j++)
+			for (auto IndexJ = 0; IndexJ < 3; IndexJ++)
 			{
 				// Check if cell is empty
-				if ((Board[FVector2D(i, j)])->GetTileStatus() == ETileStatus::EMPTY)
+				if ((Board[FVector2D(IndexI, IndexJ)])->GetTileStatus() == ETileStatus::EMPTY)
 				{
 					// Make the move (set the Human player owner)
-					(Board[FVector2D(i, j)])->SetTileStatus(0, ETileStatus::OCCUPIED);
+					(Board[FVector2D(IndexI, IndexJ)])->SetTileStatus(0, ETileStatus::OCCUPIED);
 
 					// Call minimax recursively and choose
 					// the minimum value
-					best = FMath::Min(best,
+					Best = FMath::Min(Best,
 						MiniMax(Board, Depth + 1, !IsMax));
 
 					// Undo the move
-					(Board[FVector2D(i, j)])->SetTileStatus(-1, ETileStatus::EMPTY);
+					(Board[FVector2D(IndexI, IndexJ)])->SetTileStatus(-1, ETileStatus::EMPTY);
 				}
 			}
 		}
-		return best;
+		return Best;
 	}
 }
 
 FVector2D ATTT_MinimaxPlayer::FindBestMove(TMap<FVector2D, ATile*>& Board)
 {
-	int32 bestVal = -1000;
-	FVector2D bestMove;
-	bestMove.X = -1;
-	bestMove.Y = -1;
+	int32 BestVal = -1000;
+	FVector2D BestMove;
+	BestMove.X = -1;
+	BestMove.Y = -1;
 
 	// Traverse all cells, evaluate minimax function for
 	// all empty cells. And return the cell with optimal
 	// value.
-	for (auto i = 0; i < 3; i++)
+	for (auto IndexI = 0; IndexI < 3; IndexI++)
 	{
-		for (auto j = 0; j < 3; j++)
+		for (auto IndexJ = 0; IndexJ < 3; IndexJ++)
 		{
 			// Check if cell is empty
-			if ((Board[FVector2D(i, j)])->GetTileStatus() == ETileStatus::EMPTY)
+			if ((Board[FVector2D(IndexI, IndexJ)])->GetTileStatus() == ETileStatus::EMPTY)
 			{
 				// Make the move (set the AI player owner)
-				(Board[FVector2D(i, j)])->SetTileStatus(1, ETileStatus::OCCUPIED);
+				(Board[FVector2D(IndexI, IndexJ)])->SetTileStatus(1, ETileStatus::OCCUPIED);
 
 				// compute evaluation function for this
 				// move.
-				int32 moveVal = MiniMax(Board, 0, false);
+				int32 MoveVal = MiniMax(Board, 0, false);
 
 				// Undo the move
-				(Board[FVector2D(i, j)])->SetTileStatus(-1, ETileStatus::EMPTY);
+				(Board[FVector2D(IndexI, IndexJ)])->SetTileStatus(-1, ETileStatus::EMPTY);
 
 				// If the value of the current move is
 				// more than the best value, then update
 				// best/
-				if (moveVal > bestVal)
+				if (MoveVal > BestVal)
 				{
-					bestMove.X = i;
-					bestMove.Y = j;
-					bestVal = moveVal;
+					BestMove.X = IndexI;
+					BestMove.Y = IndexJ;
+					BestVal = MoveVal;
 				}
 			}
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("AI (Minimax) bestVal = %d "), bestVal));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("AI (Minimax) bestVal = %d "), BestVal));
 
 
-	return bestMove;
+	return BestMove;
 }
 

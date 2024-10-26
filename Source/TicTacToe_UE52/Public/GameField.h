@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<ATile> TileClass;
 
-	// tile padding dimension
+	// tile padding percentage
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float CellPadding;
 

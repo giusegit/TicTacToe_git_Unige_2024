@@ -58,10 +58,10 @@ void ATTT_GameMode::ChoosePlayerAndStartGame()
 {
 	CurrentPlayer = FMath::RandRange(0, Players.Num() - 1);
 
-	for (int32 i = 0; i < Players.Num(); i++)
+	for (int32 IndexI = 0; IndexI < Players.Num(); IndexI++)
 	{
-		Players[i]->PlayerNumber = i;
-		Players[i]->Sign = i == CurrentPlayer ? ESign::X : ESign::O;
+		Players[IndexI]->PlayerNumber = IndexI;
+		Players[IndexI]->Sign = IndexI == CurrentPlayer ? ESign::X : ESign::O;
 	}
 	MoveCounter += 1;
 	Players[CurrentPlayer]->OnTurn();
@@ -82,11 +82,11 @@ void ATTT_GameMode::SetCellSign(const int32 PlayerNumber, const FVector& SpawnPo
 	{
 		IsGameOver = true;
 		Players[CurrentPlayer]->OnWin();
-		for (int32 i = 0; i < Players.Num(); i++)
+		for (int32 IndexI = 0; IndexI < Players.Num(); IndexI++)
 		{
-			if (i != CurrentPlayer)
+			if (IndexI != CurrentPlayer)
 			{
-				Players[i]->OnLose();
+				Players[IndexI]->OnLose();
 			}
 		}
 	}
