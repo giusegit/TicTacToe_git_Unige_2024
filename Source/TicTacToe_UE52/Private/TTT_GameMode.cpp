@@ -24,7 +24,14 @@ void ATTT_GameMode::BeginPlay()
 
 	MoveCounter = 0;
 
-	ATTT_HumanPlayer* HumanPlayer = Cast<ATTT_HumanPlayer>(*TActorIterator<ATTT_HumanPlayer>(GetWorld()));
+	//ATTT_HumanPlayer* HumanPlayer = *TActorIterator<ATTT_HumanPlayer>(GetWorld());
+	ATTT_HumanPlayer* HumanPlayer = GetWorld()->GetFirstPlayerController()->GetPawn<ATTT_HumanPlayer>();
+
+	if (!IsValid(HumanPlayer))
+	{
+		UE_LOG(LogTemp, Error, TEXT("No player pawn of type '%s' was found."), *ATTT_HumanPlayer::StaticClass()->GetName());
+		return;
+	}
 
 	if (GameFieldClass != nullptr)
 	{
@@ -36,9 +43,17 @@ void ATTT_GameMode::BeginPlay()
 		UE_LOG(LogTemp, Error, TEXT("Game Field is null"));
 	}
 
-	float CameraPosX = ((GField->TileSize * (FieldSize + ((FieldSize - 1) * GField->NormalizedCellPadding) - (FieldSize - 1))) / 2) - (GField->TileSize / 2);
+	float CameraPosX = ((GField->TileSize * FieldSize) + ((FieldSize - 1) * GField->TileSize * GField->CellPadding)) * 0.5f;
+
 	FVector CameraPos(CameraPosX, CameraPosX, 1000.0f);
 	HumanPlayer->SetActorLocationAndRotation(CameraPos, FRotationMatrix::MakeFromX(FVector(0, 0, -1)).Rotator());
+
+	// Alternativamente, per avere una telecamera fissa in scena:
+	// 1. Aggiungere un Camera Actor nella scena
+	// 2. Impostare "Player 0" nel campo "Auto Activate for Player"
+	// 3. Togliere la spunta al campo "Constrain Aspect Ratio"
+	// 4. Posizionatela e orientatela a vostro piacimento
+
 
 	// Human player = 0
 	Players.Add(HumanPlayer);

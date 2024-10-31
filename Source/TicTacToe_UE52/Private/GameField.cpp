@@ -27,7 +27,7 @@ void AGameField::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	//normalized tilepadding
-	NormalizedCellPadding = (TileSize + TileSize * CellPadding) / TileSize; 
+	NextCellPositionMultiplier = (TileSize + TileSize * CellPadding) / TileSize; 
 }
 
 // Called when the game starts or when spawned
@@ -83,13 +83,13 @@ TArray<ATile*>& AGameField::GetTileArray()
 
 FVector AGameField::GetRelativeLocationByXYPosition(const int32 InX, const int32 InY) const
 {
-	return TileSize * NormalizedCellPadding * FVector(InX, InY, 0);
+	return TileSize * NextCellPositionMultiplier * FVector(InX, InY, 0);
 }
 
 FVector2D AGameField::GetXYPositionByRelativeLocation(const FVector& Location) const
 {
-	const double XPos = Location.X / (TileSize * NormalizedCellPadding);
-	const double YPos = Location.Y / (TileSize * NormalizedCellPadding);
+	const double XPos = Location.X / (TileSize * NextCellPositionMultiplier);
+	const double YPos = Location.Y / (TileSize * NextCellPositionMultiplier);
 	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("x=%f,y=%f"), XPos, YPos));
 	return FVector2D(XPos, YPos);
 }
