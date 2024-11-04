@@ -44,8 +44,8 @@ void ATTT_GameMode::BeginPlay()
 	}
 
 	float CameraPosX = ((GField->TileSize * FieldSize) + ((FieldSize - 1) * GField->TileSize * GField->CellPadding)) * 0.5f;
-
-	FVector CameraPos(CameraPosX, CameraPosX, 1000.0f);
+	float Zposition = 1000.0f;
+	FVector CameraPos(CameraPosX, CameraPosX, Zposition);
 	HumanPlayer->SetActorLocationAndRotation(CameraPos, FRotationMatrix::MakeFromX(FVector(0, 0, -1)).Rotator());
 
 	// Alternativamente, per avere una telecamera fissa in scena:
